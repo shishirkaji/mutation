@@ -14,36 +14,37 @@ const manufacturingLine = {
     if (!carBase || !carBase.frameMaterial)
       throw new Error("Did you want me to hang the seat ? ");
 
-    return { ...carBase, driverSeatType: "sports", noOfSeats: 5 };
+    return { ...carBase, driverSeatType: "sports", noOfSeats: 4 };
   },
 
   addDashboad: (carBase) => {
-    carBase["soundSystem"] = "beats";
-    carBase["dashBoardMaterial"] = "carbon fiber";
-
-    return carBase;
+    return {
+      ...carBase,
+      soundSystem: "beats",
+      dashBoardMaterial: "carbon fiber",
+    };
   },
-  addEveryThingElse: (carBase) => {
-    carBase["noOfGears"] = "1";
-    carBase["engine"] = "electric";
-    carBase["noOfAirBags"] = "6";
-    carBase["topSpeed"] = "400";
-    carBase["wheels"] = "alloy";
-    carBase["tyreRimColor"] = "vanta black";
 
-    return carBase;
+  addEveryThingElse: (carBase) => {
+    return {
+      ...carBase,
+      noOfGears: 1,
+      engine: "electric",
+      noOfAirBags: 6,
+      topSpeed: 400,
+      wheels: "alloy",
+      tyreRimColor: "vanta black",
+    };
   },
 
   addColor: (carBase, { frameColor, tyreRimColor, numberPlateColor }) => {
-    frameColor ? (carBase["frameColor"] = frameColor) : undefined;
+    let coloredCar = { ...carBase };
 
-    tyreRimColor ? (carBase["tyreRimColor"] = tyreRimColor) : undefined;
+    frameColor ? (coloredCar = { ...coloredCar, frameColor }) : "";
+    tyreRimColor ? (coloredCar = { ...coloredCar, tyreRimColor }) : "";
+    numberPlateColor ? (coloredCar = { ...coloredCar, numberPlateColor }) : "";
 
-    numberPlateColor
-      ? (carBase["numberPlateColor"] = numberPlateColor)
-      : undefined;
-
-    return carBase;
+    return coloredCar;
   },
 };
 
@@ -67,12 +68,6 @@ const createMyDreamCar = () => {
   console.log(carWithSeats);
   console.log("-- car after adding seats.");
 
-  // now we will only use impure function to mutate carWorkInProgress.
-
-  // it actually does not look like its being mutated.
-
-  // the downside of such mutation are :
-
   console.log("Adding dashboard.");
 
   const carWithDashBoard = addDashboad(carWithSeats);
@@ -82,7 +77,7 @@ const createMyDreamCar = () => {
 
   console.log("Adding everything else.");
 
-  const almostCompleteCar = addEveryThingElse(carWithSeats);
+  const almostCompleteCar = addEveryThingElse(carWithDashBoard);
 
   console.log(almostCompleteCar);
 
@@ -142,7 +137,9 @@ const createMyDreamCar = () => {
   //   finally after coloring my carWorkInProgress , my car is complete
 
   console.log("  ");
-  console.log("Awesome!  I have now colored the almost ready car and It looks like this.");
+  console.log(
+    "Awesome!  I have now colored the almost ready car and It looks like this."
+  );
 
   console.log(myCompleteCar);
 
@@ -156,18 +153,38 @@ const finalExpectedCar = {
   breadth: "5ft",
   numberPlateColor: "green",
   driverSeatType: "sports",
+  noOfSeats: 4,
   soundSystem: "beats",
   dashBoardMaterial: "carbon fiber",
-  noOfGears: "1",
+  noOfGears: 1,
   engine: "electric",
-  noOfAirBags: "6",
-  topSpeed: "400",
+  noOfAirBags: 6,
+  topSpeed: 400,
   wheels: "alloy",
   tyreRimColor: "vanta black",
   frameColor: "blue",
 };
 
-if (createMyDreamCar() === finalExpectedCar) {
+let carIsAsExpected = true;
+
+const finalCar = createMyDreamCar();
+
+if (Object.keys(finalCar).length == Object.keys(finalExpectedCar).length) {
+  for (key in finalCar) {
+    if (finalCar[key] !== finalExpectedCar[key]) {
+      console.log(finalCar[key]);
+      console.log(finalExpectedCar[key]);
+
+      carIsAsExpected = false;
+
+      break;
+    }
+  }
+} else {
+  carIsAsExpected = false;
+}
+
+if (carIsAsExpected) {
   console.log("Mutation did not happen and the car is as expected");
 } else {
   console.log(
@@ -175,4 +192,6 @@ if (createMyDreamCar() === finalExpectedCar) {
       createMyDreamCar().tyreRimColor
     } and should have been ${finalExpectedCar.tyreRimColor}`
   );
+
+  console.log(finalExpectedCar);
 }
