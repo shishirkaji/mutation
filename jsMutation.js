@@ -48,20 +48,6 @@ const manufacturingLine = {
 };
 
 const createMyDreamCar = () => {
-  // carWorkInProgress is a car that starts from nothing in production line to a production ready car that is to be driven.
-
-  let carWorkInProgress;
-
-  // testingColorInMyCar is a display of carWorkInProgress with different colors
-  // it is used to test different colors so that I dont actually color my carWorkInProgress and
-  // make it look horrible while trying
-
-  let testingColorInMyCar;
-
-  // myCompleteCar is simply the carWorkInProgress but after coloring it with my desired color.
-
-  let myCompleteCar;
-
   // I will be using the methods from manufacturingLine object.
 
   const { createFrame, addSeats, addDashboad, addEveryThingElse, addColor } =
@@ -69,16 +55,16 @@ const createMyDreamCar = () => {
 
   console.log("Creating frame.");
 
-  carWorkInProgress = createFrame("shishir's car");
+  const carFrame = createFrame("shishir's car");
 
-  console.log(carWorkInProgress);
+  console.log(carFrame);
   console.log("-- basic car structure is ready.");
 
   console.log("Adding seats.");
 
-  carWorkInProgress = addSeats(carWorkInProgress);
+  const carWithSeats = addSeats(carFrame);
 
-  console.log(carWorkInProgress);
+  console.log(carWithSeats);
   console.log("-- car after adding seats.");
 
   // now we will only use impure function to mutate carWorkInProgress.
@@ -89,16 +75,16 @@ const createMyDreamCar = () => {
 
   console.log("Adding dashboard.");
 
-  carWorkInProgress = addDashboad(carWorkInProgress);
+  const carWithDashBoard = addDashboad(carWithSeats);
 
-  console.log(carWorkInProgress);
+  console.log(carWithDashBoard);
   console.log("-- car after adding dashboard.");
 
   console.log("Adding everything else.");
 
-  carWorkInProgress = addEveryThingElse(carWorkInProgress);
+  const almostCompleteCar = addEveryThingElse(carWithSeats);
 
-  console.log(carWorkInProgress);
+  console.log(almostCompleteCar);
 
   console.log("-- car after adding everything else.");
 
@@ -111,7 +97,7 @@ const createMyDreamCar = () => {
 
   console.log("Trying red frame color and white rim color.");
 
-  testingColorInMyCar = addColor(carWorkInProgress, {
+  testingColorInMyCar = addColor(almostCompleteCar, {
     frameColor: "red",
     tyreRimColor: "white",
   });
@@ -127,7 +113,7 @@ const createMyDreamCar = () => {
     "Trying blue frame color, yellow rim color and dark red to number plate ."
   );
 
-  testingColorInMyCar = addColor(carWorkInProgress, {
+  testingColorInMyCar = addColor(almostCompleteCar, {
     frameColor: "blue",
     numberPlateColor: "dark red",
   });
@@ -148,17 +134,15 @@ const createMyDreamCar = () => {
   );
   console.log("######### ");
 
-  carWorkInProgress = addColor(carWorkInProgress, {
+  const myCompleteCar = addColor(almostCompleteCar, {
     frameColor: "blue",
     numberPlateColor: "green",
   });
 
   //   finally after coloring my carWorkInProgress , my car is complete
 
-  myCompleteCar = carWorkInProgress;
-
   console.log("  ");
-  console.log("Awesome!  I have now colored your car and It looks like this.");
+  console.log("Awesome!  I have now colored the almost ready car and It looks like this.");
 
   console.log(myCompleteCar);
 
