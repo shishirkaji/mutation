@@ -14,7 +14,10 @@ const manufacturingLine = {
     if (!carBase || !carBase.frameMaterial)
       throw new Error("Did you want me to hang the seat ? ");
 
-    return { ...carBase, driverSeatType: "sports", noOfSeats: 5 };
+    carBase["driverSeatType"] = "sports";
+    carBase["noOfSeats"] = 4;
+
+    return carBase;
   },
 
   addDashboad: (carBase) => {
@@ -24,10 +27,10 @@ const manufacturingLine = {
     return carBase;
   },
   addEveryThingElse: (carBase) => {
-    carBase["noOfGears"] = "1";
+    carBase["noOfGears"] = 1;
     carBase["engine"] = "electric";
-    carBase["noOfAirBags"] = "6";
-    carBase["topSpeed"] = "400";
+    carBase["noOfAirBags"] = 6;
+    carBase["topSpeed"] = 400;
     carBase["wheels"] = "alloy";
     carBase["tyreRimColor"] = "vanta black";
 
@@ -66,12 +69,6 @@ const createMyDreamCar = () => {
 
   console.log(carWithSeats);
   console.log("-- car after adding seats.");
-
-  // now we will only use impure function to mutate carWorkInProgress.
-
-  // it actually does not look like its being mutated.
-
-  // the downside of such mutation are :
 
   console.log("Adding dashboard.");
 
@@ -142,7 +139,9 @@ const createMyDreamCar = () => {
   //   finally after coloring my carWorkInProgress , my car is complete
 
   console.log("  ");
-  console.log("Awesome!  I have now colored the almost ready car and It looks like this.");
+  console.log(
+    "Awesome!  I have now colored the almost ready car and It looks like this."
+  );
 
   console.log(myCompleteCar);
 
@@ -156,23 +155,51 @@ const finalExpectedCar = {
   breadth: "5ft",
   numberPlateColor: "green",
   driverSeatType: "sports",
+  noOfSeats: 4,
   soundSystem: "beats",
   dashBoardMaterial: "carbon fiber",
-  noOfGears: "1",
+  noOfGears: 1,
   engine: "electric",
-  noOfAirBags: "6",
-  topSpeed: "400",
+  noOfAirBags: 6,
+  topSpeed: 400,
   wheels: "alloy",
   tyreRimColor: "vanta black",
   frameColor: "blue",
 };
 
-if (createMyDreamCar() === finalExpectedCar) {
-  console.log("Mutation did not happen and the car is as expected");
-} else {
-  console.log(
-    `Mutation occured and is unexpected. The wheel rim color is ${
-      createMyDreamCar().tyreRimColor
-    } and should have been ${finalExpectedCar.tyreRimColor}`
-  );
-}
+const finalCar = createMyDreamCar();
+
+const isCarAsExpected = (finalCar, finalExpectedCar) => {
+  let carIsAsExpected = true;
+
+  if (Object.keys(finalCar).length == Object.keys(finalExpectedCar).length) {
+    for (key in finalCar) {
+      if (finalCar[key] !== finalExpectedCar[key]) {
+        console.log(`${key} in finalCar ` + finalCar[key]);
+        console.log(`${key} in finalExpectedCar` + finalExpectedCar[key]);
+
+        carIsAsExpected = false;
+
+        break;
+      }
+    }
+  } else {
+    console.log("object length is not equal");
+
+    console.log(finalCar.length + finalExpectedCar.length);
+
+    carIsAsExpected = false;
+  }
+
+  if (carIsAsExpected) {
+    console.log("Mutation did not happen and the car is as expected");
+  } else {
+    console.log(
+      `Mutation occured and is unexpected. The wheel rim color is ${finalCar.tyreRimColor} and should have been ${finalExpectedCar.tyreRimColor}`
+    );
+
+    console.log(finalExpectedCar);
+  }
+};
+
+isCarAsExpected(finalCar, finalExpectedCar);
