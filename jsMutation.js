@@ -1,23 +1,7 @@
-// Suppose this is an custom dream car.
-
-const dreamCar = {
-  color: "white",
-  noOfGears: 1,
-  engine: "electric",
-  noOfAirBags: 6,
-  topSpeed: "400kmph",
-  length: "10ft",
-  breadth: "5ft",
-  driverSeatType: "sports",
-  frameMaterial: "aluminium",
-  dashBoard: "carbonFiber",
-};
-
-console.log(
-  "I am about to show you what exactly is mutation in software programming."
-);
+console.log("A simple mutation demo.");
 
 const manufacturingLine = {
+  // this function creates basic frame of a car.
   createFrame: (carsName) => ({
     carsName,
     frameMaterial: "aluminium",
@@ -30,7 +14,7 @@ const manufacturingLine = {
     if (!carBase || !carBase.frameMaterial)
       throw new Error("Did you want me to hang the seat ? ");
 
-    return { ...carBase, driverSeatType: "sports" };
+    return { ...carBase, driverSeatType: "sports", noOfSeats: 5 };
   },
 
   addDashboad: (carBase) => {
@@ -50,7 +34,7 @@ const manufacturingLine = {
     return carBase;
   },
 
-  addColor: (carBase, frameColor, tyreRimColor, numberPlateColor) => {
+  addColor: (carBase, { frameColor, tyreRimColor, numberPlateColor }) => {
     frameColor ? (carBase["frameColor"] = frameColor) : undefined;
 
     tyreRimColor ? (carBase["tyreRimColor"] = tyreRimColor) : undefined;
@@ -65,6 +49,7 @@ const manufacturingLine = {
 
 const createMyDreamCar = () => {
   // carWorkInProgress is a car that starts from nothing in production line to a production ready car that is to be driven.
+
   let carWorkInProgress;
 
   // testingColorInMyCar is a display of carWorkInProgress with different colors
@@ -74,17 +59,22 @@ const createMyDreamCar = () => {
   let testingColorInMyCar;
 
   // myCompleteCar is simply the carWorkInProgress but after coloring it with my desired color.
+
   let myCompleteCar;
+
+  // I will be using the methods from manufacturingLine object.
 
   const { createFrame, addSeats, addDashboad, addEveryThingElse, addColor } =
     manufacturingLine;
 
-  // create frame
+  console.log("Creating frame.");
 
   carWorkInProgress = createFrame("shishir's car");
 
   console.log(carWorkInProgress);
   console.log("-- basic car structure is ready.");
+
+  console.log("Adding seats.");
 
   carWorkInProgress = addSeats(carWorkInProgress);
 
@@ -97,26 +87,34 @@ const createMyDreamCar = () => {
 
   // the downside of such mutation are :
 
+  console.log("Adding dashboard.");
+
   carWorkInProgress = addDashboad(carWorkInProgress);
 
   console.log(carWorkInProgress);
   console.log("-- car after adding dashboard.");
 
-  //   great this works as expected.
+  console.log("Adding everything else.");
 
   carWorkInProgress = addEveryThingElse(carWorkInProgress);
 
   console.log(carWorkInProgress);
+
   console.log("-- car after adding everything else.");
 
   console.log(
-    "######### from below this line I will try different color on my car unless mentioned. NOTE no changes should happen to my car that is almost ready as it is only trial ############"
+    "######### from below this line I will only TRY different color on the car. NOTE no changes should happen to my car that is almost ready as it is only trial ############"
   );
 
   // now we ONLY want to first see how the car would look when we create different colors but not actually paint it YET.
   // now here is the twist PAY ATTENTION!
 
-  testingColorInMyCar = addColor(carWorkInProgress, "red", "white");
+  console.log("Trying red frame color and white rim color.");
+
+  testingColorInMyCar = addColor(carWorkInProgress, {
+    frameColor: "red",
+    tyreRimColor: "white",
+  });
 
   console.log(testingColorInMyCar);
   console.log(
@@ -125,20 +123,22 @@ const createMyDreamCar = () => {
 
   // nah red does not look good, huh lets try blue
 
-  testingColorInMyCar = addColor(
-    carWorkInProgress,
-    "blue",
-    "yellow",
-    "dark red"
+  console.log(
+    "Trying blue frame color, yellow rim color and dark red to number plate ."
   );
+
+  testingColorInMyCar = addColor(carWorkInProgress, {
+    frameColor: "blue",
+    numberPlateColor: "dark red",
+  });
 
   console.log(testingColorInMyCar);
   console.log(
     "-- checking blue frame color, yellow rim color and dark red number plate color on my dream car"
   );
 
-  // cool blue looks good with yellow rim ONLY and NOT painting my number plate with dark red.
-  // Number plate's color is good by default and that is what i am going to paint my car with .
+  // cool, blue frame looks good with ONLY green number plate and NOT painting my car wheel rims.
+  // Car wheel rims  is good by default (vanta black ) and that is what i am going to paint my car with .
   console.log("  ");
 
   console.log("######### ");
@@ -148,7 +148,10 @@ const createMyDreamCar = () => {
   );
   console.log("######### ");
 
-  carWorkInProgress = addColor(carWorkInProgress, "blue", undefined, "green");
+  carWorkInProgress = addColor(carWorkInProgress, {
+    frameColor: "blue",
+    numberPlateColor: "green",
+  });
 
   //   finally after coloring my carWorkInProgress , my car is complete
 
@@ -158,6 +161,34 @@ const createMyDreamCar = () => {
   console.log("Awesome!  I have now colored your car and It looks like this.");
 
   console.log(myCompleteCar);
+
+  return myCompleteCar;
 };
 
-createMyDreamCar();
+const finalExpectedCar = {
+  carsName: "shishir's car",
+  frameMaterial: "aluminium",
+  length: "10ft",
+  breadth: "5ft",
+  numberPlateColor: "green",
+  driverSeatType: "sports",
+  soundSystem: "beats",
+  dashBoardMaterial: "carbon fiber",
+  noOfGears: "1",
+  engine: "electric",
+  noOfAirBags: "6",
+  topSpeed: "400",
+  wheels: "alloy",
+  tyreRimColor: "vanta black",
+  frameColor: "blue",
+};
+
+if (createMyDreamCar() === finalExpectedCar) {
+  console.log("Mutation did not happen and the car is as expected");
+} else {
+  console.log(
+    `Mutation occured and is unexpected. The wheel rim color is ${
+      createMyDreamCar().tyreRimColor
+    } and should have been ${finalExpectedCar.tyreRimColor}`
+  );
+}
