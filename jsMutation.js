@@ -165,33 +165,39 @@ const finalExpectedCar = {
   frameColor: "blue",
 };
 
-let carIsAsExpected = true;
-
 const finalCar = createMyDreamCar();
 
-if (Object.keys(finalCar).length == Object.keys(finalExpectedCar).length) {
-  for (key in finalCar) {
-    if (finalCar[key] !== finalExpectedCar[key]) {
-      console.log(finalCar[key]);
-      console.log(finalExpectedCar[key]);
+const isCarAsExpected = (finalCar, finalExpectedCar) => {
+  let carIsAsExpected = true;
 
-      carIsAsExpected = false;
+  if (Object.keys(finalCar).length == Object.keys(finalExpectedCar).length) {
+    for (key in finalCar) {
+      if (finalCar[key] !== finalExpectedCar[key]) {
+        console.log(`${key} in finalCar ` + finalCar[key]);
+        console.log(`${key} in finalExpectedCar` + finalExpectedCar[key]);
 
-      break;
+        carIsAsExpected = false;
+
+        break;
+      }
     }
+  } else {
+    console.log("object length is not equal");
+
+    console.log(finalCar.length + finalExpectedCar.length);
+
+    carIsAsExpected = false;
   }
-} else {
-  carIsAsExpected = false;
-}
 
-if (carIsAsExpected) {
-  console.log("Mutation did not happen and the car is as expected");
-} else {
-  console.log(
-    `Mutation occured and is unexpected. The wheel rim color is ${
-      createMyDreamCar().tyreRimColor
-    } and should have been ${finalExpectedCar.tyreRimColor}`
-  );
+  if (carIsAsExpected) {
+    console.log("Mutation did not happen and the car is as expected");
+  } else {
+    console.log(
+      `Mutation occured and is unexpected. The wheel rim color is ${finalCar.tyreRimColor} and should have been ${finalExpectedCar.tyreRimColor}`
+    );
 
-  console.log(finalExpectedCar);
-}
+    console.log(finalExpectedCar);
+  }
+};
+
+isCarAsExpected(finalCar, finalExpectedCar);
