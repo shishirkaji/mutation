@@ -1,3 +1,4 @@
+'use strict';
 console.log("A simple mutation demo.");
 
 const manufacturingLine = {
@@ -84,6 +85,8 @@ const createMyDreamCar = () => {
   console.log(almostCompleteCar);
 
   console.log("-- car after adding everything else.");
+
+  Object.freeze(almostCompleteCar);
 
   console.log(
     "######### from below this line I will only TRY different color on the car. NOTE no changes should happen to my car that is almost ready as it is only trial ############"
