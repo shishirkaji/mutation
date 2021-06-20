@@ -92,7 +92,7 @@ const createMyDreamCar = () => {
   // now we ONLY want to first see how the car would look when we create different colors but not actually paint it YET.
   // now here is the twist PAY ATTENTION!
 
-  console.log("Trying red frame color and white rim color.");
+  console.log("Trying red frame color and white wheel rim color.");
 
   testingColorInMyCar = addColor(almostCompleteCar, {
     frameColor: "red",
