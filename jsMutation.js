@@ -17,13 +17,11 @@ const manufacturingLine = {
     return { ...carBase, driverSeatType: "sports", noOfSeats: 4 };
   },
 
-  addDashboad: (carBase) => {
-    return {
-      ...carBase,
-      soundSystem: "beats",
-      dashBoardMaterial: "carbon fiber",
-    };
-  },
+  addDashboad: (carBase) => ({
+    ...carBase,
+    soundSystem: "beats",
+    dashBoardMaterial: "carbon fiber",
+  }),
 
   addEveryThingElse: (carBase) => {
     return {
